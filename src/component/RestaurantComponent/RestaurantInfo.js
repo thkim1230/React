@@ -1,34 +1,24 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-const RestaurantItemBlock = styled.div`
-    display: flex;
-    .contents {
-			p {
-				margin: 0;
-				line-height: 1.5;
-				margin-top: 0.5rem;
-				white-space: normal;
-			}
-    }
+const Info = styled.div`
+	width: 50%;
 `;
 
-const RestaurantInfo = ({article}) => {
-	const { notice, phone, addr,introduce,hours} = article;
+
+const RestaurantInfo = () => {
 	return (
-		<RestaurantItemBlock>
-			<div className='contents'>
+			<Info>
                 <h2>공지사항</h2>
-				<p>{notice}</p>
+				<p>불러온 데이터</p>
                 <h2>전화번호</h2>
-                <p>{phone}</p>
+                <p>불러온 데이터</p>
                 <h2>주소</h2>
-				<p>{addr}</p>
+				<p>불러온 데이터</p>
                 <h2>매장 소개</h2>
-                <p>{introduce}</p>
+                <p>불러온 데이터</p>
                 <h2>영업 시간</h2>
-				<p>{hours}</p>
-			</div>
-		</RestaurantItemBlock>
+				<p>불러온 데이터</p>
+			</Info>
 	);
 };
 export default RestaurantInfo;
