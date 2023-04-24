@@ -1,9 +1,5 @@
 import React from "react"
-import Header from "../header/RTheader"
-import HomeFooter from "../footer/Foot"
 import styled from "styled-components"
-import RestaurantInfo from "./RestaurantInfo";
-import RtNav from "./RestaurantNav";
 
 const FixContent = styled.section`
 
@@ -28,10 +24,9 @@ const FixContent = styled.section`
     }
 `;
 
-const RtHome =() =>{
+const RestaurantContainer =() =>{
     return(
         <>
-            <Header/>
             <FixContent>
                 <img src="" alt="" />
                 <div>
@@ -40,10 +35,8 @@ const RtHome =() =>{
                     <button>문의하기</button>
                 </div>
             </FixContent>
-            <RtNav/>
-            <HomeFooter/>
         </>
     )
 }
 
-export default RtHome;
+export default RestaurantContainer;

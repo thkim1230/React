@@ -1,19 +1,33 @@
-import Nav from 'react-bootstrap/Nav';
+import styled from "styled-components";
+import { useNavigate,Link } from "react-router-dom";
 
-function RtNav() {
-  return (
-    <Nav justify variant="tabs" defaultActiveKey="/Restaurant/Info">
-      <Nav.Item>
-        <Nav.Link href="/Restaurant/Info">매장 상세 정보</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link eventKey="/Restaurant/menu">메뉴 설명</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link eventKey="/Restaurant/review">리뷰 및 평점</Nav.Link>
-      </Nav.Item>
+
+const Nav = styled.div`
+
+  width: 100%;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  Link {
+    width: 100px;
+    height: 100px;
+
+  }
+`;
+
+
+
+const RestaurantNav = () => {
+
+  return(
+    <Nav>
+      <Link to ="/"></Link>
+      <Link to ="/Restaurant/menu"></Link>
+      <Link to ="/Restaurant/review"></Link>
     </Nav>
   );
 }
 
-export default RtNav;
+export default RestaurantNav;
