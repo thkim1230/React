@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Headerbar = styled.div`
-background-color: salmon;
+background-color: lightsalmon;
     width: 100%;
     height: 100px;
     display: flex;

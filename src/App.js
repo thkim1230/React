@@ -6,13 +6,7 @@ import Review from './pages/RestaurantReview';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<RestaurantInfo />} />
-        <Route path="/RestaurantMenu" element={<Menu />} />
-        <Route path="/RestaurantReview" element={<Review />} />
-      </Routes>
-  </Router>
+    <RestaurantInfo/>
   );
 }
 export default App;
