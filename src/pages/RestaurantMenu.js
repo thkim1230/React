@@ -27,8 +27,8 @@ const Menu =() => {
         <>
         	<Header/>
 			<RestaurantContainer/>
-            <MenuContanier>
             <RestaurantNav/>
+            <MenuContanier>
                 <MenuBox>
                     <img src="" alt="" />
                     <div>

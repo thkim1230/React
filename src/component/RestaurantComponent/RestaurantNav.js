@@ -10,28 +10,28 @@ const Nav = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ivory;
-  p{
-    font-size: 30px;
+  a{
+    color : black;
+    text-decoration: none;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid;
     width: 300px;
     height: 100px;
     background-color: salmon;
+    border: 1px solid;
+    font-size: 30px;
   }
-
 `;
 
 
 
 const RestaurantNav = () => {
-
   return(
     <Nav>
-      <p>매장 상세 정보</p>
-      <p>메뉴</p>
-      <p>리뷰 및 평점</p>
+      <Link to="/">상세 정보</Link>
+      <Link to="/menu">메뉴 설명</Link>
+      <Link to="/review">리뷰 및 평점</Link>
     </Nav>
   );
 }
