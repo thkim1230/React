@@ -15,7 +15,16 @@ const AxiosApi = {
         }
       );
     },
-    
+    restaurantMain: async (restaurantId) => {
+      return await axios.get(
+        `${KH_DOMAIN}/restaurant/${restaurantId}`,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": FRONTEND_DOMAIN,
+          },
+        }
+      );
+    },
   };
   
 
