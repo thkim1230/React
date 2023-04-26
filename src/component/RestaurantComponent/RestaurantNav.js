@@ -3,13 +3,13 @@ import { useNavigate,Link } from "react-router-dom";
 
 
 const Nav = styled.div`
-
+  position: relative;
+  bottom: 25px;
   width: 100%;
-  height: 100px;
+  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ivory;
   a{
     color : black;
     text-decoration: none;
@@ -17,10 +17,11 @@ const Nav = styled.div`
     justify-content: center;
     align-items: center;
     width: 300px;
-    height: 100px;
-    background-color: salmon;
+    height: 80px;
+    background-color: lightsalmon;
     border: 1px solid;
-    font-size: 30px;
+    border-bottom:5px solid ;
+    font-size: 20px;
   }
 `;
 
@@ -29,7 +30,7 @@ const Nav = styled.div`
 const RestaurantNav = () => {
   return(
     <Nav>
-      <Link to="/">상세 정보</Link>
+      <Link to="/">매장 상세 정보</Link>
       <Link to="/menu">메뉴 설명</Link>
       <Link to="/review">리뷰 및 평점</Link>
     </Nav>
