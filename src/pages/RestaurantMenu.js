@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import Header from "../component/header/RTheader";
 import HomeFooter from "../component/footer/Foot";
-import RestaurantContainer from "../component/RestaurantComponent/RestaurantContainer";
-import RestaurantNav from "../component/RestaurantComponent/RestaurantNav";
+import RestaurantContainer from "../component/restaurantComponent/RestaurantContainer";
+import RestaurantNav from "../component/restaurantComponent/RestaurantNav";
 import AxiosApi from "../api/Axios";
-import {useState,useEffect} from "react";
+import {useState,useEffect,useContext} from "react";
+import { RestaurantIdContext } from "../context/RestaurantId";
 
 const MenuContanier = styled.section `
         width: 100%;
@@ -39,11 +40,13 @@ const MenuContanier = styled.section `
 `;
 
 const Menu =() => {
+    const {selectedRestaurantId} = useContext(RestaurantIdContext);
+
     const [rtMenu, setRtMenu] = useState("");
 
 	useEffect(() => {
 		const rtMenu = async()=>{
-            const rsp = await AxiosApi.restaurantMenu("710-12-12345")
+            const rsp = await AxiosApi.restaurantMenu(selectedRestaurantId)
             setRtMenu(rsp.data);
         };
         rtMenu();

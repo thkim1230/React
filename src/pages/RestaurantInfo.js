@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import Header from "../component/header/RTheader";
 import HomeFooter from "../component/footer/Foot";
-import RestaurantContainer from "../component/RestaurantComponent/RestaurantContainer";
-import {useState,useEffect} from "react";
-import RestaurantNav from "../component/RestaurantComponent/RestaurantNav";
+import RestaurantContainer from "../component/restaurantComponent/RestaurantContainer";
+import {useState,useEffect, useContext} from "react";
+import RestaurantNav from "../component/restaurantComponent/RestaurantNav";
 import AxiosApi from "../api/Axios";
+import { RestaurantIdContext } from "../context/RestaurantId";
 
 const InfoContainer = styled.section`
 		width: 100%;
@@ -32,17 +33,19 @@ const InfoContainer = styled.section`
 `;
 
 
-const RestaurantInfo = () => {
+const Info = () => {
+	// Context Api 사용
+	const {selectedRestaurantId} = useContext(RestaurantIdContext);
+	// 데이터 호출 
 	const [rtInfo, setRtInfo] = useState("");
 
 	useEffect(() => {
-		const rtInfo = async()=>{
-            const rsp = await AxiosApi.restaurantInfo("710-12-12345")
-            setRtInfo(rsp.data);
-        };
-        rtInfo();
-    },[]);
-
+		const rtInfo = async () => {
+		const rsp = await AxiosApi.restaurantInfo(selectedRestaurantId);
+		setRtInfo(rsp.data);
+		};
+		rtInfo();
+	}, []);
 
 	return (
 		<>
@@ -79,4 +82,4 @@ const RestaurantInfo = () => {
 		</>
 	);
 };
-export default RestaurantInfo;
+export default Info;

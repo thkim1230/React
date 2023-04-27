@@ -30,7 +30,7 @@ const Nav = styled.div`
 const RestaurantNav = () => {
   return(
     <Nav>
-      <Link to="/">매장 상세 정보</Link>
+      <Link to="/info">매장 상세 정보</Link>
       <Link to="/menu">메뉴 설명</Link>
       <Link to="/review">리뷰 및 평점</Link>
     </Nav>

@@ -1,8 +1,9 @@
 import React from "react"
 import styled from "styled-components"
 import imgLogo from "../images/rt.png"
-import {useState,useEffect} from "react";
+import {useState,useEffect,useContext} from "react";
 import AxiosApi from "../../api/Axios";
+import { RestaurantIdContext } from "../../context/RestaurantId";
 
 
 const FixContent = styled.section`
@@ -56,11 +57,13 @@ const FixContent = styled.section`
 `;
 
 const RestaurantContainer =() =>{
+    const {selectedRestaurantId} = useContext(RestaurantIdContext);
+
     const [rtInfoFix, setRtInfoFix] = useState("");
  
     useEffect(() => {
 		const rtInfoFix = async()=>{
-            const rsp = await AxiosApi.restaurantInfoFixed("710-12-12345")
+            const rsp = await AxiosApi.restaurantInfoFixed(selectedRestaurantId)
             setRtInfoFix(rsp.data);
         };
         rtInfoFix();
@@ -74,7 +77,7 @@ const RestaurantContainer =() =>{
                         <p>매장 이름 : {rest.name}</p>
                         <p>전화 번호 : {rest.phone}</p>
                         <p>주소 : {rest.addr}</p>
-                        <p>평점 : {rest.rating}</p>
+                        <p>평점 : {rest.avgRating}</p>
                         <button className="inq">문의 하기</button>
                         <button className="res">예약 하기</button>
                     </div>
