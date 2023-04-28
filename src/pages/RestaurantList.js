@@ -7,55 +7,55 @@ import styled from "styled-components";
 
 const ListBox = styled.div`
   border: 1px solid;
-  width  : 400px ;
-  height: 200px;
+  width  : 450px ;
+  height: 150px;
   margin: 30px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a{
+    font-size: 25px;
+    text-decoration: none;
+    color: black;
+    padding: 20px;
+  }
+  p{
+    float: left;
+  }
+  .rat{
+    margin-right: 200px;
+  }
 `;
 
-
 const List =() =>{
-  //Context api
-	const {setSelectedRestaurantId,selectedRestaurantId} = useContext(RestaurantIdContext);
- 
-  const [rtIdList, setRtIdList] = useState([]);
 
-  const [rtList, setRtList] = useState([]);
-  
-  useEffect(() => {
-    const rtList = async()=>{
-    const rsp = await AxiosApi.restaurantList(selectedRestaurantId);
-    setRtList(rsp.data);
-    };
-    rtList();
-  },[selectedRestaurantId]);
+  //Context API로 매장 id 받아와서 해당 id 매장 정보 출력
+  const {setSelectedRestaurantId} = useContext(RestaurantIdContext);
+
+  // 매장 리스트 정보 호출
+  const [rtIdList, setRtIdList] = useState([]);
 
 	useEffect(() => {
 		const rtIdList = async()=>{
-    const rsp = await AxiosApi.restaurantIdList('');
+    const rsp = await AxiosApi.restaurantList('');
     setRtIdList(rsp.data);
     };
     rtIdList();
   },[]);
   
-
-
     return (
       <>
-        {rtIdList.map((restId) => (
-        <ListBox key={restId}>
-          <Link to={"/info"} onClick={() => setSelectedRestaurantId(restId)}>
-            아니
-            {rtList.map(rest=>(
-            <div key={rest.name}>
-              <p>매장 이름 : {rest.name} (주소 : {rest.addr})</p>
-              <p>평점 : {rest.avgRating} 리뷰 {rest.reviewCount}개 </p>
-            </div>
-            ))}
+        {rtIdList.map(rest => (
+        <ListBox key={rest.id}>
+          <Link to={"/info"} onClick={() => setSelectedRestaurantId(rest.id)}>
+              <p>{rest.name} (주소 : {rest.addr})</p>
+              <p className="rat">평점 : {rest.avgRating} </p> 
+              <p className="rev">리뷰 {rest.reviewCount}개 </p>
           </Link>
         </ListBox>
-      ))}
-    </>
-      );
+        ))}
+      </>
+    );
 };
+
 export default List;

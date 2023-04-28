@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "styled-components"
-import imgLogo from "../images/rt.png"
 import {useState,useEffect,useContext} from "react";
 import AxiosApi from "../../api/Axios";
 import { RestaurantIdContext } from "../../context/RestaurantId";
@@ -20,6 +19,7 @@ const FixContent = styled.section`
         width: 400px;
         margin-right: 100px;
         height: 300px;
+        background-color: white;
     }
     div{
         border: 1px solid;
@@ -30,24 +30,23 @@ const FixContent = styled.section`
         flex-direction: column;
     
         button{
-            font-size: 20px;
             position: absolute;
+            font-size: 20px;
             width: 150px;
-            height: 80px;
             background-color: salmon;
             border: none;
-            box-shadow: 1px 1px 5px;
+            cursor: pointer;
         }
         .res{
-          
-            position: absolute;
-            left: 1300px;
-            bottom: 550px;
+            
+            position: relative;
+            left: 410px;
+            bottom: 90px;
         }
         .inq{
-            position: absolute;
-            left: 1300px;
-            bottom: 700px;
+            position: relative;
+            left: 410px;
+            bottom: 250px;
         }
         p{
             padding: 10px;
@@ -71,7 +70,7 @@ const RestaurantContainer =() =>{
 
     return(
             <FixContent>
-                <img src={imgLogo} alt="이미지" />
+                <img src="" alt="이미지" />
                 {rtInfoFix&& rtInfoFix.map(rest =>(
                     <div key={rest.name}>
                         <p>매장 이름 : {rest.name}</p>
