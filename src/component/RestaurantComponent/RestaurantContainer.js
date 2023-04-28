@@ -56,8 +56,10 @@ const FixContent = styled.section`
 `;
 
 const RestaurantContainer =() =>{
+    //Context API로 매장 id 받아와서 해당 id 매장 정보 출력
     const {selectedRestaurantId} = useContext(RestaurantIdContext);
-
+    
+    // 매장 정보 호출
     const [rtInfoFix, setRtInfoFix] = useState("");
  
     useEffect(() => {
