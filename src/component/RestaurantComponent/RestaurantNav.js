@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-
 const Nav = styled.div`
   position: relative;
   bottom: 25px;
@@ -25,8 +24,6 @@ const Nav = styled.div`
   }
 `;
 
-
-
 const RestaurantNav = () => {
   return(
     <Nav>
@@ -35,6 +32,6 @@ const RestaurantNav = () => {
       <Link to="/review">리뷰 및 평점</Link>
     </Nav>
   );
-}
+};
 
 export default RestaurantNav;

@@ -75,12 +75,14 @@ const ReviewContanier = styled.section`
 const Review =() => {
 //Context API로 매장 id 받아와서 해당 id 매장 정보 출력
     const {selectedRestaurantId} = useContext(RestaurantIdContext);
-    const [reviewContainerHeight, setReviewContainerHeight] = useState();
 
 // 리뷰 데이터 입력
     const [rtReview, setRtReview] = useState(""); // 모든 리뷰 데이터
     const [visibleReviews, setVisibleReviews] = useState([]); // 현재까지 불러온 리뷰 데이터
     const [loadedCount, setLoadedCount] = useState(3); // 현재까지 불러온 리뷰 데이터 개수
+
+    // onClick 으로 클릭시 3개씩 화면에 나올 데이터 개수 추가 + 화면 높이 증가
+    const [reviewContainerHeight, setReviewContainerHeight] = useState();
 
 // 모든 리뷰 데이터 불러오는 axios 호출
     useEffect(() => {

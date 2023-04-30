@@ -33,19 +33,19 @@ const List =() =>{
   const {setSelectedRestaurantId} = useContext(RestaurantIdContext);
 
   // 매장 리스트 정보 호출
-  const [rtIdList, setRtIdList] = useState([]);
+  const [rtList, setRtList] = useState([]);
 
 	useEffect(() => {
-		const rtIdList = async()=>{
+		const rtList = async()=>{
     const rsp = await AxiosApi.restaurantList('');
-    setRtIdList(rsp.data);
+    setRtList(rsp.data);
     };
-    rtIdList();
+    rtList();
   },[]);
   
     return (
       <>
-        {rtIdList.map(rest => (
+        {rtList.map(rest => (
         <ListBox key={rest.id}>
           <Link to={"/info"} onClick={() => setSelectedRestaurantId(rest.id)}>
               <p>{rest.name} (주소 : {rest.addr})</p>
