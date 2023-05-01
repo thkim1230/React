@@ -5,7 +5,7 @@ import RestaurantContainer from "../component/restaurantComponent/RestaurantCont
 import {useState,useEffect, useContext} from "react";
 import RestaurantNav from "../component/restaurantComponent/RestaurantNav";
 import AxiosApi from "../api/Axios";
-import { RestaurantIdContext } from "../context/RestaurantId";
+import { RestIdContext } from "../context/RestaurantId";
 
 const InfoContainer = styled.section`
 		width: 100%;
@@ -35,13 +35,13 @@ const InfoContainer = styled.section`
 
 const Info = () => {
 	// Context Api 사용
-	const {selectedRestaurantId} = useContext(RestaurantIdContext);
+	const {restId} = useContext(RestIdContext);
 	// 데이터 호출 
 	const [rtInfo, setRtInfo] = useState("");
 
 	useEffect(() => {
 		const rtInfo = async () => {
-		const rsp = await AxiosApi.restaurantInfo(selectedRestaurantId);
+		const rsp = await AxiosApi.restaurantInfo(restId);
 		setRtInfo(rsp.data);
 		};
 		rtInfo();

@@ -37,7 +37,15 @@ const AxiosApi = {
         content:content
       }
       return await axios.post(HD_DOMAIN + "/addReview",review);
-    }
+    },
+  // 로그인 
+  memberLogin : async(id,pw) => {
+    const login = {
+        id : id,
+        pwd : pw
+    };
+    return await axios.post(HD_DOMAIN + "/login",login);
   }
+}
 
 export default AxiosApi;

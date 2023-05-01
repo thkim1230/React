@@ -1,15 +1,15 @@
 import React, { createContext, useState } from "react";
-export const RestaurantIdContext= createContext([]);
+export const RestIdContext= createContext([]);
 
 
 
 const RestaurantProvider = ({ children }) => {
-  const [selectedRestaurantId, setSelectedRestaurantId] = useState("");
+  const [restId, setRestId] = useState("");
 
   return (
-    <RestaurantIdContext.Provider value={{ selectedRestaurantId, setSelectedRestaurantId }}>
+    <RestIdContext.Provider value={{ restId, setRestId }}>
       {children}
-    </RestaurantIdContext.Provider>
+    </RestIdContext.Provider>
   );
 };
 

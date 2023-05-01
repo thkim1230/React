@@ -2,7 +2,7 @@ import React from "react";
 import AxiosApi from "../api/Axios";
 import {useState,useEffect,useContext} from "react";
 import { Link } from "react-router-dom";
-import { RestaurantIdContext } from "../context/RestaurantId";
+import { RestIdContext } from "../context/RestaurantId";
 import styled from "styled-components";
 
 const ListBox = styled.div`
@@ -14,7 +14,7 @@ const ListBox = styled.div`
   justify-content: center;
   align-items: center;
   a{
-    font-size: 25px;
+    font-size: 20px;
     text-decoration: none;
     color: black;
     padding: 20px;
@@ -30,7 +30,7 @@ const ListBox = styled.div`
 const List =() =>{
 
   //Context API로 매장 id 받아와서 해당 id 매장 정보 출력
-  const {setSelectedRestaurantId} = useContext(RestaurantIdContext);
+  const {setRestId} = useContext(RestIdContext);
 
   // 매장 리스트 정보 호출
   const [rtList, setRtList] = useState([]);
@@ -47,7 +47,7 @@ const List =() =>{
       <>
         {rtList.map(rest => (
         <ListBox key={rest.id}>
-          <Link to={"/info"} onClick={() => setSelectedRestaurantId(rest.id)}>
+          <Link to={"/info"} onClick={() => setRestId(rest.id)}>
               <p>{rest.name} (주소 : {rest.addr})</p>
               <p className="rat">평점 : {rest.avgRating} </p> 
               <p className="rev">리뷰 {rest.reviewCount}개 </p>

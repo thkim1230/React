@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import AxiosApi from "../api/Axios";
+import { useNavigate } from "react-router-dom";
 
 const ModalStyle = styled.div`
      .modal {
@@ -120,12 +121,15 @@ const ModalStyle = styled.div`
 `;
 
 const Modal = (props) => {
+    const navigate = useNavigate();
+
     // 팝업 열고 닫음
     const {open,close} = props;
 
     // 리뷰 데이터 입력 받고 데이터 추가 전송
     const [inputTttle, setInputTitle] = useState("");
     const [inputContent, setInputContent] = useState("");
+    const [inputRating,setInputRating] = useState("");
 
     const onChangeTitle = e =>{
         setInputTitle(e.target.value)
@@ -134,9 +138,17 @@ const Modal = (props) => {
         setInputContent(e.target.value)
     }
 
+    const onChangeRating = e =>{
+        setInputRating(e.target.value)
+    }
     const addReview = async() =>{
-        const add = await AxiosApi.addReview(inputTttle,inputContent);
-        add();
+        const rsp = await AxiosApi.addReview(inputTttle,inputContent);
+        if(rsp.data === true) {
+            navigate('/review');
+        } else {
+            console.log("전송 실패");
+        }
+
     }
 
     return (
@@ -151,6 +163,7 @@ const Modal = (props) => {
                     <main>
                         <input className="title" value={inputTttle} type="text" onChange={onChangeTitle} placeholder="제목을 입력해 주세요"/>
                         <textarea className="content" cols="30" rows="10"  value={inputContent} onChange={onChangeContent} placeholder="내용을 입력해 주세요"></textarea>
+                        <input type="number" value={inputRating} onChange={onChangeRating} placeholder="평점을 입력하세요 (1 ~ 5)"/>
                         <input type="file" className="file"/>
                     </main>
                     <footer>

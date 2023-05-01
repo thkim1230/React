@@ -6,7 +6,7 @@ import RestaurantContainer from "../component/restaurantComponent/RestaurantCont
 import RestaurantNav from "../component/restaurantComponent/RestaurantNav";
 import AxiosApi from "../api/Axios";
 import {useState,useEffect,useContext} from "react";
-import { RestaurantIdContext } from "../context/RestaurantId";
+import { RestIdContext } from "../context/RestaurantId";
 
 const MenuContanier = styled.section `
         width: 100%;
@@ -47,30 +47,31 @@ const MenuContanier = styled.section `
 `;
 
 const Menu =() => {
-    const {selectedRestaurantId} = useContext(RestaurantIdContext);
+    const {restId} = useContext(RestIdContext);
 
     const [rtMenu, setRtMenu] = useState("");
-    const [visibleReviews, setVisibleReviews] = useState([]); // 현재까지 불러온 리뷰 데이터
-    const [loadedCount, setLoadedCount] = useState(3); // 현재까지 불러온 리뷰 데이터 개수
-    const [reviewContainerHeight, setReviewContainerHeight] = useState();
+    const [menu, setMenu] = useState([]); // 현재까지 불러온 리뷰 데이터
+    const [menuLode, setMenuLode] = useState(3); // 현재까지 불러온 리뷰 데이터 개수
+    const [menuHeight, setMenuHeight] = useState();// 화면 높이 추가
 
 	useEffect(() => {
 		const rtMenu = async()=>{
-            const rsp = await AxiosApi.restaurantMenu(selectedRestaurantId)
+            const rsp = await AxiosApi.restaurantMenu(restId)
             setRtMenu(rsp.data);
         };
         rtMenu();
     },[]);
 // 화면에 나올 메뉴 수
     useEffect(() => {
-        setVisibleReviews(rtMenu.slice(0, loadedCount));
-    }, [rtMenu, loadedCount]);
+        setMenu(rtMenu.slice(0, menuLode));
+    }, [rtMenu, menuLode]);
 
 // onClick 으로 클릭시 3개씩 화면에 나올 데이터 개수 추가 + 화면 높이 증가
     function handleLoadMore() {
-        setLoadedCount(loadedCount + 3);  // 개수 추가
-        setReviewContainerHeight(reviewContainerHeight + 300); // 높이를 300px 증가시킴
+        setMenuLode(menuLode + 3);  // 개수 추가
+        setMenuHeight(menuHeight + 300); // 높이를 300px 증가시킴
     }
+
     return (
         <>
         	<Header/>
@@ -78,7 +79,7 @@ const Menu =() => {
             <RestaurantNav/>
             <MenuContanier>
                 <div className="cont">
-                    {visibleReviews&&visibleReviews.map(rest =>(
+                    {menu && menu.map(rest =>(
                         <div className="box" key={rest.menuName}>
                             <p>메뉴 이름 : {rest.menuName} </p>
                             <p>설명 : {rest.menuDesc}</p>

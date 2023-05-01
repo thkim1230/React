@@ -6,8 +6,9 @@ import RestaurantNav from "../component/restaurantComponent/RestaurantNav";
 import styled from "styled-components";
 import AxiosApi from "../api/Axios";
 import {useState,useEffect,useContext} from "react";
-import { RestaurantIdContext } from "../context/RestaurantId";
+import { RestIdContext } from "../context/RestaurantId";
 import Modal from "../util/Modal";
+import { useNavigate } from "react-router-dom";
 
 const ReviewContanier = styled.section`
     width: 100%;
@@ -61,33 +62,46 @@ const ReviewContanier = styled.section`
             padding: 10px;
             padding-top: 0px;
             width: 820px;
-            height: 200px;
+            height: 350px;
             border: 1px solid;
             margin-bottom: 40px;
-            p{
+            p {
                 font-size: 20px;
                 margin-bottom: 10px;
             }
+            .title {
+                    font-weight: bold;
+                    font-size: 23px;
+                }
+        img{
+            width: 200px;
+            height: 100px;
+            margin-left: 100px;
+            margin-top: 30px;
+        }
         }
     }
 `;
 
 const Review =() => {
 //Context API로 매장 id 받아와서 해당 id 매장 정보 출력
-    const {selectedRestaurantId} = useContext(RestaurantIdContext);
-
+    const {restId} = useContext(RestIdContext);
+// 로그인 확인
+    const navigate= useNavigate();
+    const userId = localStorage.getItem("userId");
+    const isLogin=localStorage.getItem("isLogin")
 // 리뷰 데이터 입력
     const [rtReview, setRtReview] = useState(""); // 모든 리뷰 데이터
-    const [visibleReviews, setVisibleReviews] = useState([]); // 현재까지 불러온 리뷰 데이터
-    const [loadedCount, setLoadedCount] = useState(3); // 현재까지 불러온 리뷰 데이터 개수
+    const [visibleReviews, setVisibleReviews] = useState([]); // 화면에 보이는 리뷰 데이터
+    const [rvCount, setRvCount] = useState(3); // 현재까지 불러온 리뷰 데이터 개수
 
-    // onClick 으로 클릭시 3개씩 화면에 나올 데이터 개수 추가 + 화면 높이 증가
-    const [reviewContainerHeight, setReviewContainerHeight] = useState();
+// onClick 으로 클릭시 3개씩 화면에 나올 데이터 개수 추가 + 화면 높이 증가
+    const [rvHeight, setRvHeight] = useState();
 
 // 모든 리뷰 데이터 불러오는 axios 호출
     useEffect(() => {
 	        const rtReview = async()=>{
-            const rsp = await AxiosApi.restaurantReview(selectedRestaurantId)
+            const rsp = await AxiosApi.restaurantReview(restId)
             setRtReview(rsp.data);
         };
         rtReview();
@@ -95,23 +109,30 @@ const Review =() => {
     
 // 화면에 나올 리뷰 수 관리
     useEffect(() => {
-        setVisibleReviews(rtReview.slice(0, loadedCount));
-    }, [rtReview, loadedCount]);
+        setVisibleReviews(rtReview.slice(0, rvCount));
+    }, [rtReview, rvCount]);
 
 // onClick 으로 클릭시 3개씩 화면에 나올 데이터 개수 추가 + 화면 높이 증가
     function handleLoadMore() {
-        setLoadedCount(loadedCount + 3);  // 개수 추가
-        setReviewContainerHeight(reviewContainerHeight + 300); // 높이를 300px 증가시킴
+        setRvCount(rvCount + 3);  // 개수 추가
+        setRvHeight(rvHeight + 300); // 높이를 300px 증가시킴
     }
-// 리뷰 작성 버튼 입력시 팝업 창
-const [modalOpen, setModalOpen] = useState(false);
-const openModal = () => {
-    setModalOpen(true);
-  };
 
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+// 리뷰 작성 버튼 입력시 팝업 창
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const openModal = () => {
+        if (isLogin === "TRUE") {
+            setModalOpen(true);
+        } else {
+            alert("로그인이 되어있지 않습니다.")
+            navigate("/login");
+        }
+    }
+
+    const closeModal = () => {
+        setModalOpen(false);
+    }
 
     return (
         <>
@@ -119,17 +140,18 @@ const openModal = () => {
 			<RestaurantContainer/>
             <RestaurantNav/>
             <ReviewContanier>
-                <div className="cont" style={{height: reviewContainerHeight}}>
+                <div className="cont" style={{height: rvHeight}}>
 
                     <button className="modalBtn" onClick={openModal}>리뷰 작성 하기</button>
                     <Modal open={modalOpen} close={closeModal}></Modal>
 
                     {visibleReviews&&visibleReviews.map(rest=>(
                         <div className="box" key={rest.reviewId}>
-                            <p>{rest.reviewTitle}</p>
+                            <p>{rest.nickName} 작성일 : {rest.reviewDate} </p>
+                            <p className="title">{rest.reviewTitle}</p>
                             <p>{rest.reviewContent}</p>
                             <p>평점 : {rest.reviewRating}</p>
-                            <p>작성일 : {rest.reviewDate}</p>
+                            <img src="" alt="" />
                         </div>
                     ))}
 

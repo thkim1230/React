@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import {useState,useEffect,useContext} from "react";
 import AxiosApi from "../../api/Axios";
-import { RestaurantIdContext } from "../../context/RestaurantId";
+import { RestIdContext } from "../../context/RestaurantId";
 
 
 const FixContent = styled.section`
@@ -57,14 +57,14 @@ const FixContent = styled.section`
 
 const RestaurantContainer =() =>{
     //Context API로 매장 id 받아와서 해당 id 매장 정보 출력
-    const {selectedRestaurantId} = useContext(RestaurantIdContext);
+    const {restId} = useContext(RestIdContext);
     
     // 매장 정보 호출
     const [rtInfoFix, setRtInfoFix] = useState("");
  
     useEffect(() => {
 		const rtInfoFix = async()=>{
-            const rsp = await AxiosApi.restaurantInfoFixed(selectedRestaurantId)
+            const rsp = await AxiosApi.restaurantInfoFixed(restId)
             setRtInfoFix(rsp.data);
         };
         rtInfoFix();
