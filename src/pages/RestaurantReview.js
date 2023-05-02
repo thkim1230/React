@@ -88,8 +88,6 @@ const Review =() => {
     const {restId} = useContext(RestIdContext);
 // 로그인 확인
     const navigate= useNavigate();
-    const userId = localStorage.getItem("userId");
-    const isLogin=localStorage.getItem("isLogin")
 // 리뷰 데이터 입력
     const [rtReview, setRtReview] = useState(""); // 모든 리뷰 데이터
     const [visibleReviews, setVisibleReviews] = useState([]); // 화면에 보이는 리뷰 데이터
@@ -122,6 +120,10 @@ const Review =() => {
     const [modalOpen, setModalOpen] = useState(false);
 
     const openModal = () => {
+        const isLogin=localStorage.getItem("isLogin")
+        const memId = localStorage.getItem("memId");  // 로컬 스토리지로 로그인 시 회원 id 입력받고
+
+        console.log(isLogin,memId);
         if (isLogin === "TRUE") {
             setModalOpen(true);
         } else {

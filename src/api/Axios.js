@@ -31,12 +31,15 @@ const AxiosApi = {
     },
 
   // 리뷰 추가 하기
-    addReview:async(title,content)=>{
+    addReview:async(restId,memId,title,content,rating)=>{
       const review={
+        restId:restId,
+        memId:memId,
         title:title,
-        content:content
+        content:content,
+        rating:rating
       }
-      return await axios.post(HD_DOMAIN + "/addReview",review);
+      return await axios.post(HD_DOMAIN + "/restaurant/add/review",review);
     },
   // 로그인 
   memberLogin : async(id,pw) => {

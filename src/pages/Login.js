@@ -133,7 +133,6 @@ const Input = styled.input`
 const Login = () => {
     const navigate = useNavigate();
     // 로컬스토리지 사용
-    window.localStorage.setItem("isLogin","FALSE")
 
     // 키보드 입력 받기
     const [inputId,setInputId] = useState("");
@@ -181,7 +180,7 @@ const Login = () => {
         console.log(response.data);
         if (response.data === true) {
             // 로컬스토리지에 저장
-            window.localStorage.setItem("userId",inputId);
+            window.localStorage.setItem("memId",inputId);
             window.localStorage.setItem("password",inputPw);
             window.localStorage.setItem("isLogin","TRUE");
             navigate("/review");

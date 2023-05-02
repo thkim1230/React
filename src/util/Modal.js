@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import AxiosApi from "../api/Axios";
 import { useNavigate } from "react-router-dom";
+import { RestIdContext } from "../context/RestaurantId";
 
 const ModalStyle = styled.div`
      .modal {
@@ -122,6 +123,7 @@ const ModalStyle = styled.div`
 
 const Modal = (props) => {
     const navigate = useNavigate();
+    const {restId} = useContext(RestIdContext); // context api로 매장 id 입력 받음
 
     // 팝업 열고 닫음
     const {open,close} = props;
@@ -137,18 +139,20 @@ const Modal = (props) => {
     const onChangeContent = e =>{
         setInputContent(e.target.value)
     }
-
     const onChangeRating = e =>{
         setInputRating(e.target.value)
     }
     const addReview = async() =>{
-        const rsp = await AxiosApi.addReview(inputTttle,inputContent);
+        const memId = localStorage.getItem("memId");  // 로컬 스토리지로 로그인 시 회원 id 입력받고
+        const rsp = await AxiosApi.addReview(restId,memId,inputTttle,inputContent,inputRating);
+        console.log(memId);
+        console.log(rsp.data);
+
         if(rsp.data === true) {
             navigate('/review');
         } else {
             console.log("전송 실패");
         }
-
     }
 
     return (
