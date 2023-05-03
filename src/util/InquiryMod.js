@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { useState,useContext } from "react";
 import AxiosApi from "../api/Axios";
-import { useNavigate } from "react-router-dom";
 import { RestIdContext } from "../context/RestaurantId";
 
 const ModalStyle = styled.div`
+
      .modal {
         display: none;  // 숨겨진 상태로 시작
         position: fixed;
@@ -19,19 +19,22 @@ const ModalStyle = styled.div`
     .openModal {
         display: flex; // 모달이 보이도록 함
         align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
         /* 팝업이 열릴때 스르륵 열리는 효과 */
         animation: modal-bg-show 0.8s;
     }
-    button {
+    /* button {
         outline: none;
         cursor: pointer;
         margin-right: 10px;
         border: 0;
-    }
+    } */
 
     section {
         width: 900px;
-        height: 500px;
+        height: 450px;
         margin: 0 auto;
         border-radius: 0.3rem;
         background-color: #fff;
@@ -65,7 +68,7 @@ const ModalStyle = styled.div`
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        height: 360px;
+        height: 300px;
         padding: 16px;
         border-bottom: 1px solid #dee2e6;
         border-top: 1px solid #dee2e6;
@@ -84,19 +87,22 @@ const ModalStyle = styled.div`
             right: 275px;
         }
     }
-
-    section > footer {
+    footer{
+        height: 50px;
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
     }
-
     section > footer button {
-        width: 200px;
-        height: 30px;
-        margin-top: 13px;
-        margin-left:100px;
-        margin-right: 100px;
+        position: absolute;
+        left:1200px;
+        background-color: white;
+        margin-top: 10px;
+    }
+    .add{
+        position: absolute;
+        left:550px;
     }
 
     @keyframes modal-show {
@@ -120,17 +126,15 @@ const ModalStyle = styled.div`
 
 `;
 
-const Modal = (props) => {
-    const navigate = useNavigate();
+const InquiryModal = (props) => {
     const {restId} = useContext(RestIdContext); // context api로 매장 id 입력 받음
 
     // 팝업 열고 닫음
     const {open,close} = props;
 
-    // 리뷰 데이터 입력 받고 데이터 추가 전송
+    // 문의 데이터 입력 받고 데이터 추가 전송
     const [inputTttle, setInputTitle] = useState("");
     const [inputContent, setInputContent] = useState("");
-    const [inputRating,setInputRating] = useState("");
 
     const onChangeTitle = e =>{
         setInputTitle(e.target.value)
@@ -138,20 +142,16 @@ const Modal = (props) => {
     const onChangeContent = e =>{
         setInputContent(e.target.value)
     }
-    const onChangeRating = e =>{
-        setInputRating(e.target.value)
-    }
-    const addReview = async() =>{
-        const memId= localStorage.getItem("userId");
-        console.log(memId);
 
-        const rsp = await AxiosApi.addReview(restId,memId,inputTttle,inputContent,inputRating);
-        console.log(rsp.data);
+    const addInquiry = async() =>{
+        const memId= localStorage.getItem("userId");
+
+        const rsp = await AxiosApi.addInquiry(restId,memId,inputTttle,inputContent);
 
         if(rsp.data === true) {
-            alert("리뷰가 등록되었습니다.")
+            console.log("성공");
+            alert("문의가 등록되었습니다.")
 
-            
         } else {
             console.log("전송 실패");
         }
@@ -163,17 +163,16 @@ const Modal = (props) => {
             {open && 
                 <section>
                     <header>
-                        <p>리뷰 작성</p>
+                        <p>문의 작성</p>
                         <button onClick={close}>&times;</button>
                     </header>
                     <main>
                         <input className="title" value={inputTttle} type="text" onChange={onChangeTitle} placeholder="제목을 입력해 주세요"/>
                         <textarea className="content" cols="30" rows="10"  value={inputContent} onChange={onChangeContent} placeholder="내용을 입력해 주세요"></textarea>
-                        <input type="number" value={inputRating} onChange={onChangeRating} placeholder="평점을 입력하세요 (0 ~ 5)"/>
                         <input type="file" className="file"/>
                     </main>
                     <footer>
-                        <button onClick={addReview}>리뷰 등록</button>
+                        <button className="add" onClick={addInquiry&&close}>문의 등록</button>
                         <button onClick={close}>취소</button>
                     </footer>
                 </section>
@@ -184,4 +183,4 @@ const Modal = (props) => {
   }
   
 
-export default Modal;
+export default InquiryModal;

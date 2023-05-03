@@ -12,11 +12,11 @@ function App() {
     <RestaurantProvider>
       <Router >
         <Routes>
-          <Route path="/" element={<List/>} />
+          <Route path="/" element={<Login/>} />
           <Route path="info" element={<Info/>} />
           <Route path="/menu" element={<Menu/>} />
           <Route path="/review" element={<Review/>} />
-          <Route path="/login" element={<Login/>}/>
+          <Route path="/list" element={<List/>}/>
         </Routes>
       </Router>
     </RestaurantProvider>

@@ -19,8 +19,12 @@ const Nav = styled.div`
     height: 80px;
     background-color: lightsalmon;
     border: 1px solid;
+    border-right: none;
     border-bottom:5px solid ;
     font-size: 20px;
+  }
+  .rev{
+    border-right: 1px solid;
   }
 `;
 
@@ -29,7 +33,7 @@ const RestaurantNav = () => {
     <Nav>
       <Link to="/info">매장 상세 정보</Link>
       <Link to="/menu">메뉴 설명</Link>
-      <Link to="/review">리뷰 및 평점</Link>
+      <Link className="rev" to="/review">리뷰 및 평점</Link>
     </Nav>
   );
 };

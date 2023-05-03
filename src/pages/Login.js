@@ -183,7 +183,7 @@ const Login = () => {
             window.localStorage.setItem("memId",inputId);
             window.localStorage.setItem("password",inputPw);
             window.localStorage.setItem("isLogin","TRUE");
-            navigate("/review");
+            navigate("/list");
         }
         else {
             console.log("에러");

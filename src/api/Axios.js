@@ -34,7 +34,7 @@ const AxiosApi = {
     addReview:async(restId,memId,title,content,rating)=>{
       const review={
         restId:restId,
-        memId:memId,
+        memberId:memId,
         title:title,
         content:content,
         rating:rating
@@ -48,7 +48,49 @@ const AxiosApi = {
         pwd : pw
     };
     return await axios.post(HD_DOMAIN + "/login",login);
-  }
+  },
+  // 문의 등록
+  addInquiry:async(restId,memId,title,content)=>{
+    const inquiry={
+      restId:restId,
+      memberId:memId,
+      title:title,
+      content:content
+    }
+    return await axios.post(HD_DOMAIN + "/restaurant/add/inquiry",inquiry);
+  },
+  //찜 등록
+  addRestLike:async(restId,memId)=>{
+    const addLike={
+      restId:restId,
+      memberId:memId
+    }
+    return await axios.post(HD_DOMAIN+"/restaurant/add/restLike",addLike);
+  },
+  // 찜 삭제
+  delRestLike:async(restId,memId)=>{
+    const delLike={
+      restId:restId,
+      memberId:memId
+    }
+    return await axios.post(HD_DOMAIN+"/restaurant/del/restLike",delLike);
+  },
+   //찜 등록
+   addRevLike:async(revId,memId)=>{
+    const addLike={
+      revId:revId,
+      memberId:memId
+    }
+    return await axios.post(HD_DOMAIN+"/restaurant/add/revLike",addLike);
+  },
+  // 찜 삭제
+  delRevLike:async(revId,memId)=>{
+    const delLike={
+      revId:revId,
+      memberId:memId
+    }
+    return await axios.post(HD_DOMAIN+"/restaurant/del/revLike",delLike);
+  },
 }
 
 export default AxiosApi;
