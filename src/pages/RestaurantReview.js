@@ -163,28 +163,23 @@ const Review =() => {
         setModalOpen(false);
     }
 // 공감 버튼 기능
-const [isLiked, setIsLiked] = useState({});
+const [isLiked, setIsLiked] = useState(false);
 // 로컬스토리지에 저장해서 페이지 이동시 초기화를 막음
 useEffect(() => {
     const storedIsLiked = window.localStorage.getItem("isRevLiked");
-    if (storedIsLiked !== null) {
-      setIsLiked(JSON.parse(storedIsLiked));
+    if (storedIsLiked) {
+      setIsLiked(storedIsLiked === "true");
     }
   }, []);
 
-const addLike = async (reviewId) => {
+const addLike = async () => {
     if (isLogin === "TRUE") {
-        const rsp = await AxiosApi.addRevLike(reviewId, memId);
+        const rsp = await AxiosApi.addRestLike(restId, memId);
         if (rsp.data === true) {
-            setIsLiked((prevIsLiked) => ({
-                ...prevIsLiked,
-                [reviewId]: true,
-              }));            
-            window.localStorage.setItem("isRevLiked", JSON.stringify({
-                ...isLiked,
-                [reviewId]: true,
-              }));
-            console.log("공감 등록 성공");
+            setIsLiked(true);
+            window.localStorage.setItem("isRevLiked", "true");
+
+            console.log("찜 등록 성공");
           } else {
             console.log("전송 실패");
           }
@@ -194,30 +189,25 @@ const addLike = async (reviewId) => {
     }
 };
 
-const deleteLike = async (reviewId) => {
-    const rsp = await AxiosApi.delRevLike(reviewId, memId);
-    if (rsp.data === true) {
-        setIsLiked((prevIsLiked) => ({
-            ...prevIsLiked,
-            [reviewId]: false,
-          }));
-        window.localStorage.setItem("isRevLiked", JSON.stringify({
-            ...isLiked,
-            [reviewId]: true,
-          }));
+const deleteLike = async () => {
+    const rsp = await AxiosApi.delRestLike(restId, memId);
 
-        console.log("공감 삭제 성공");
+    if (rsp.data === true) {
+        setIsLiked(false);
+        window.localStorage.setItem("isRevLiked", "false");
+
+        console.log("찜 삭제 성공");
     } else {
         console.log("전송 실패");
     }
 };
 
-const handleLike = (reviewId) => {
-  if (!isLiked[reviewId]) {
-    addLike(reviewId);
+const handleLike = () => {
+  if (!isLiked) {
+    addLike();
     console.log("등록완료");
   } else {
-    deleteLike(reviewId);
+    deleteLike();
     console.log("삭제완료");
   }
 };
@@ -239,7 +229,7 @@ const handleLike = (reviewId) => {
                             <p className="title">{rest.reviewTitle}</p>
                             <p className="content">{rest.reviewContent}</p>
                             <p className="rating">평점 : {rest.reviewRating}</p>
-                            <button className="like" onClick={handleLike} style={{ backgroundColor: isLiked[rest.reviewId] ? "salmon" : "white" }}>공감</button>
+                            <button className="like" onClick={handleLike} style={{ backgroundColor: isLiked ? "salmon" : "white" }}>공감</button>
                             <div className="imgBox">
                                 <img src="" alt="" />
                                 <img src="" alt="" />
