@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../component/header/RTheader";
-import HomeFooter from "../component/footer/Foot";
-import RestaurantContainer from "../component/restaurantComponent/RestaurantContainer";
-import RestaurantNav from "../component/restaurantComponent/RestaurantNav";
-import AxiosApi from "../api/Axios";
+import Header from "../header/RTheader";
+import HomeFooter from "../footer/Foot";
+import RestaurantContainer from "./RestaurantContainer";
+import RestaurantNav from "./RestaurantNav";
+import AxiosApi from "../../api/Axios";
 import {useState,useEffect,useContext} from "react";
-import { RestIdContext } from "../context/RestaurantId";
+import { RestIdContext } from "../../context/RestaurantId";
 
 const MenuContanier = styled.section `
         width: 100%;
@@ -73,10 +73,6 @@ const Menu =() => {
     }
 
     return (
-        <>
-        	<Header/>
-			<RestaurantContainer/>
-            <RestaurantNav/>
             <MenuContanier>
                 <div className="cont">
                     {menu && menu.map(rest =>(
@@ -90,8 +86,6 @@ const Menu =() => {
 
                 </div>
             </MenuContanier>
-            <HomeFooter/>
-        </>
     )
 }
 

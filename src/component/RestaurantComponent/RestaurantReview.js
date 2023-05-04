@@ -1,13 +1,13 @@
 import React from "react";
-import Header from "../component/header/RTheader";
-import HomeFooter from "../component/footer/Foot";
-import RestaurantContainer from "../component/restaurantComponent/RestaurantContainer";
-import RestaurantNav from "../component/restaurantComponent/RestaurantNav";
+import Header from "../header/RTheader";
+import HomeFooter from "../footer/Foot";
+import RestaurantContainer from "./RestaurantContainer";
+import RestaurantNav from "./RestaurantNav";
 import styled from "styled-components";
-import AxiosApi from "../api/Axios";
+import AxiosApi from "../../api/Axios";
 import {useState,useEffect,useContext} from "react";
-import { RestIdContext } from "../context/RestaurantId";
-import Modal from "../util/Modal";
+import { RestIdContext } from "../../context/RestaurantId";
+import Modal from "../../util/Modal";
 import { useNavigate } from "react-router-dom";
 
 const ReviewContanier = styled.section`
@@ -162,60 +162,66 @@ const Review =() => {
     const closeModal = () => {
         setModalOpen(false);
     }
+
 // 공감 버튼 기능
-const [isLiked, setIsLiked] = useState(false);
-// 로컬스토리지에 저장해서 페이지 이동시 초기화를 막음
-useEffect(() => {
-    const storedIsLiked = window.localStorage.getItem("isRevLiked");
-    if (storedIsLiked) {
-      setIsLiked(storedIsLiked === "true");
-    }
-  }, []);
+// 리뷰 id 회원id 조회해서 공감 했는지 안했는지 배열에 담고 찾기
 
-const addLike = async () => {
-    if (isLogin === "TRUE") {
-        const rsp = await AxiosApi.addRestLike(restId, memId);
+    const [likedList,setLikedList] = useState([]);
+    const [isLiked, setIsLiked] = useState(false); // 최종 찜 상태 
+
+    useEffect(()=>{ // 공감 리스트 조회 해서 배열에 담기
+        const liked = async() => {
+            const rsp = await AxiosApi.revLiked(memId);
+            setLikedList(rsp.data);
+        }
+        liked();
+    },[memId]);
+
+    // useEffect(() => {
+    //     if (likedList.some(item => item.reviewId === reviewId)) { // 배열을 확인하며 해당 리뷰에서 공감이 등록되어 있으면 true 아니면 false
+    //       setIsLiked(true);
+    //     } else {
+    //       setIsLiked(false);
+    //     }
+    //   }, [likedList,reviewId]);
+
+    const addLike = async (reviewId) => {
+        const rsp = await AxiosApi.addRevLike(reviewId, memId);
         if (rsp.data === true) {
-            setIsLiked(true);
-            window.localStorage.setItem("isRevLiked", "true");
-
             console.log("찜 등록 성공");
-          } else {
-            console.log("전송 실패");
-          }
-    } else {
-        alert("로그인이 되어있지 않습니다.")
-        navigate("/login");
-    }
-};
+            setLikedList([...likedList, {reviewId, memId}]); // 찜등록 성공시 배열에도 추가
+            setIsLiked(true); // 최종 찜 상태를 true 로 전달
+            console.log(likedList);
+            console.log(isLiked);
+            console.log(visibleReviews.map(rest=>(rest.reviewId)));
 
-const deleteLike = async () => {
-    const rsp = await AxiosApi.delRestLike(restId, memId);
+            } else {
+                console.log(" 등록 전송 실패");
+            }
+        };
 
-    if (rsp.data === true) {
-        setIsLiked(false);
-        window.localStorage.setItem("isRevLiked", "false");
+    const deleteLike = async (reviewId) => {
+        const rsp = await AxiosApi.delRevLike(reviewId, memId);
+        if (rsp.data === true) {
+            console.log("찜 삭제 성공");
+            setLikedList(likedList.filter(item => !(item.reviewId === reviewId && item.memId === memId))); // 찜 삭제 성공시 배열에도 삭제
+            setIsLiked(false); // 최종 찜 상태를 false 로 전달
+            console.log(likedList);
+            console.log(isLiked);
 
-        console.log("찜 삭제 성공");
-    } else {
-        console.log("전송 실패");
-    }
-};
+            } else {
+            console.log("삭제 전송 실패");
+            }
+        };
 
-const handleLike = () => {
-  if (!isLiked) {
-    addLike();
-    console.log("등록완료");
-  } else {
-    deleteLike();
-    console.log("삭제완료");
-  }
-};
+    const onClickLiked = (reviewId) =>{
+        if (!isLiked) {
+            addLike(reviewId);
+        }else
+            deleteLike(reviewId);
+        }
+
     return (
-        <>
-        	<Header/>
-			<RestaurantContainer/>
-            <RestaurantNav/>
             <ReviewContanier>
                 <div className="cont" style={{height: rvHeight}}>
 
@@ -229,22 +235,19 @@ const handleLike = () => {
                             <p className="title">{rest.reviewTitle}</p>
                             <p className="content">{rest.reviewContent}</p>
                             <p className="rating">평점 : {rest.reviewRating}</p>
-                            <button className="like" onClick={handleLike} style={{ backgroundColor: isLiked ? "salmon" : "white" }}>공감</button>
+
+                            <button className="like" onClick={()=> onClickLiked(rest.reviewId)} style={{backgroundColor: isLiked ? "salmon" : "white",}}>공감</button>
+
                             <div className="imgBox">
                                 <img src="" alt="" />
                                 <img src="" alt="" />
                                 <img src="" alt="" />
                             </div>
-                 
                         </div>
                     ))}
-
                     <button onClick={handleLoadMore}>더보기</button>
-
                 </div>
             </ReviewContanier>
-			<HomeFooter/>
-        </>
     )
 }
 

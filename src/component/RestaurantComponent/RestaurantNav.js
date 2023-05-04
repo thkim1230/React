@@ -28,12 +28,23 @@ const Nav = styled.div`
   }
 `;
 
-const RestaurantNav = () => {
+const RestaurantNav = ({handleType}) => {
+
+  const onClickMenu = () => {
+    handleType("menu");
+  }
+  const onClickInfo = () => {
+    handleType("default");
+  }
+  const onClickReview = () => {
+    handleType("review");
+  }
+
   return(
     <Nav>
-      <Link to="/info">매장 상세 정보</Link>
-      <Link to="/menu">메뉴 설명</Link>
-      <Link className="rev" to="/review">리뷰 및 평점</Link>
+      <button onClick={onClickInfo}>매장 상세 정보</button>
+      <button onClick={onClickMenu}>메뉴 설명</button>
+      <button onClick={onClickReview}>리뷰 및 평점</button>
     </Nav>
   );
 };

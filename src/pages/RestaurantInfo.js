@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import React from "react";
 import Header from "../component/header/RTheader";
 import HomeFooter from "../component/footer/Foot";
 import RestaurantContainer from "../component/restaurantComponent/RestaurantContainer";
@@ -6,6 +7,8 @@ import {useState,useEffect, useContext} from "react";
 import RestaurantNav from "../component/restaurantComponent/RestaurantNav";
 import AxiosApi from "../api/Axios";
 import { RestIdContext } from "../context/RestaurantId";
+import Menu from "../component/restaurantComponent/RestaurantMenu";
+import Review from "../component/restaurantComponent/RestaurantReview";
 
 const InfoContainer = styled.section`
 		width: 100%;
@@ -38,6 +41,11 @@ const Info = () => {
 	const {restId} = useContext(RestIdContext);
 	// 데이터 호출 
 	const [rtInfo, setRtInfo] = useState("");
+	const[type,setType] = useState("default");
+	const handleType = (e) =>{
+		setType(e);
+
+	}
 
 	useEffect(() => {
 		const rtInfo = async () => {
@@ -51,8 +59,11 @@ const Info = () => {
 		<>
 			<Header/>
 			<RestaurantContainer/>
-			<RestaurantNav/>
-			<InfoContainer>
+
+			<RestaurantNav  handleType={handleType}/>
+
+			{type === "default" && (
+				<InfoContainer>
 				{rtInfo&&rtInfo.map(rest =>(
 					<div className="cont" key ={rest.restaurantNotice}>
 						<div className="box">
@@ -78,6 +89,14 @@ const Info = () => {
 					</div>
 				))}			
 			</InfoContainer>
+			)}
+
+			{type === "menu" && (
+				<Menu/>
+			)}
+			{type === "review" && (
+				<Review/>
+			)}
 			<HomeFooter/>
 		</>
 	);

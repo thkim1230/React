@@ -91,6 +91,15 @@ const AxiosApi = {
     }
     return await axios.post(HD_DOMAIN+"/restaurant/del/revLike",delLike);
   },
+  // 찜 리스트 조회
+  restLiked:async(memId)=>{
+    return await axios.get(HD_DOMAIN+`/restaurant/liked?memberId=${memId}`);
+  },  
+  
+  // 리뷰 공감 리스트 조회
+  revLiked:async(memId)=>{
+    return await axios.get(HD_DOMAIN+`/review/liked?memberId=${memId}`);
+  }
 }
 
 export default AxiosApi;
