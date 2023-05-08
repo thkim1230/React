@@ -1,13 +1,9 @@
 import React from "react";
-import Header from "../header/RTheader";
-import HomeFooter from "../footer/Foot";
-import RestaurantContainer from "./RestaurantContainer";
-import RestaurantNav from "./RestaurantNav";
 import styled from "styled-components";
 import AxiosApi from "../../api/Axios";
 import {useState,useEffect,useContext} from "react";
 import { RestIdContext } from "../../context/RestaurantId";
-import Modal from "../../util/Modal";
+import Modal from "../../util/ReviewModal";
 import { useNavigate } from "react-router-dom";
 
 const ReviewContanier = styled.section`
@@ -15,7 +11,7 @@ const ReviewContanier = styled.section`
     display: flex;
     justify-content: center;
     align-items: center;
-
+    margin-bottom: 30px;
     .cont{
         display: flex;
         justify-content: center;
@@ -162,92 +158,31 @@ const Review =() => {
     const closeModal = () => {
         setModalOpen(false);
     }
-
-// 공감 버튼 기능
-// 리뷰 id 회원id 조회해서 공감 했는지 안했는지 배열에 담고 찾기
-
-    const [likedList,setLikedList] = useState([]);
-    const [isLiked, setIsLiked] = useState(false); // 최종 찜 상태 
-
-    useEffect(()=>{ // 공감 리스트 조회 해서 배열에 담기
-        const liked = async() => {
-            const rsp = await AxiosApi.revLiked(memId);
-            setLikedList(rsp.data);
-        }
-        liked();
-    },[memId]);
-
-    // useEffect(() => {
-    //     if (likedList.some(item => item.reviewId === reviewId)) { // 배열을 확인하며 해당 리뷰에서 공감이 등록되어 있으면 true 아니면 false
-    //       setIsLiked(true);
-    //     } else {
-    //       setIsLiked(false);
-    //     }
-    //   }, [likedList,reviewId]);
-
-    const addLike = async (reviewId) => {
-        const rsp = await AxiosApi.addRevLike(reviewId, memId);
-        if (rsp.data === true) {
-            console.log("찜 등록 성공");
-            setLikedList([...likedList, {reviewId, memId}]); // 찜등록 성공시 배열에도 추가
-            setIsLiked(true); // 최종 찜 상태를 true 로 전달
-            console.log(likedList);
-            console.log(isLiked);
-            console.log(visibleReviews.map(rest=>(rest.reviewId)));
-
-            } else {
-                console.log(" 등록 전송 실패");
-            }
-        };
-
-    const deleteLike = async (reviewId) => {
-        const rsp = await AxiosApi.delRevLike(reviewId, memId);
-        if (rsp.data === true) {
-            console.log("찜 삭제 성공");
-            setLikedList(likedList.filter(item => !(item.reviewId === reviewId && item.memId === memId))); // 찜 삭제 성공시 배열에도 삭제
-            setIsLiked(false); // 최종 찜 상태를 false 로 전달
-            console.log(likedList);
-            console.log(isLiked);
-
-            } else {
-            console.log("삭제 전송 실패");
-            }
-        };
-
-    const onClickLiked = (reviewId) =>{
-        if (!isLiked) {
-            addLike(reviewId);
-        }else
-            deleteLike(reviewId);
-        }
+// 리뷰 공감 버튼
 
     return (
-            <ReviewContanier>
-                <div className="cont" style={{height: rvHeight}}>
-
-                    <button className="modalBtn" onClick={openModal}>리뷰 작성 하기</button>
-                    <Modal open={modalOpen} close={closeModal}></Modal>
-
-                    {visibleReviews&&visibleReviews.map(rest=>(
-                        <div className="box" key={rest.reviewId}>
-                            <p className="nick">{rest.nickName}</p>
-                            <p className="date">작성일 : {rest.reviewDate}</p>
-                            <p className="title">{rest.reviewTitle}</p>
-                            <p className="content">{rest.reviewContent}</p>
-                            <p className="rating">평점 : {rest.reviewRating}</p>
-
-                            <button className="like" onClick={()=> onClickLiked(rest.reviewId)} style={{backgroundColor: isLiked ? "salmon" : "white",}}>공감</button>
-
-                            <div className="imgBox">
-                                <img src="" alt="" />
-                                <img src="" alt="" />
-                                <img src="" alt="" />
-                            </div>
+        <ReviewContanier>
+            <div className="cont" style={{height: rvHeight}}>
+                <button className="modalBtn" onClick={openModal}>리뷰 작성 하기</button>
+                <Modal open={modalOpen} close={closeModal}></Modal>
+                {visibleReviews&&visibleReviews.map(rest=>(
+                    <div onClick={navigate("/detail")} className="box" key={rest.reviewId}>
+                        <p className="nick">{rest.nickName}</p>
+                        <p className="date">작성일 : {rest.reviewDate}</p>
+                        <p className="title">{rest.reviewTitle}</p>
+                        <p className="content">{rest.reviewContent}</p>
+                        <p className="rating">평점 : {rest.reviewRating}</p>
+                        <button className="like" >공감</button>
+                        <div className="imgBox">
+                            <img src="" alt="" />
+                            <img src="" alt="" />
+                            <img src="" alt="" />
                         </div>
-                    ))}
-                    <button onClick={handleLoadMore}>더보기</button>
-                </div>
-            </ReviewContanier>
+                    </div>
+                ))}
+                <button onClick={handleLoadMore}>더보기</button>
+            </div>
+        </ReviewContanier>
     )
 }
 

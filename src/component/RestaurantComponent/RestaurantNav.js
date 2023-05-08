@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 const Nav = styled.div`
   position: relative;
@@ -9,7 +8,7 @@ const Nav = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  a{
+  button{
     color : black;
     text-decoration: none;
     display: flex;
@@ -22,6 +21,7 @@ const Nav = styled.div`
     border-right: none;
     border-bottom:5px solid ;
     font-size: 20px;
+    cursor: pointer;
   }
   .rev{
     border-right: 1px solid;

@@ -5,6 +5,7 @@ import AxiosApi from "../../api/Axios";
 import { RestIdContext } from "../../context/RestaurantId";
 import {  useNavigate } from "react-router-dom";
 import InquiryModal from "../../util/InquiryMod";
+import ResModal from "../../util/ResModal";
 
 const FixContent = styled.section`
 
@@ -107,7 +108,7 @@ const closeModal = () => {
     const [isLiked, setIsLiked] = useState(false); // 최종 찜 상태 
     const [likedList,setLikedList] = useState([]); // 찜 리스트 배열
 
-    useEffect(()=>{ // 회원id를 조회해서 찜 매장 리스트를 배열에 삽입
+    useEffect(()=>{ // 로그인한 회원id를 기준으로 찜 매장 리스트를 db에서 불러와 확인하고 배열에 삽입
         const liked = async() => {
             const rsp = await AxiosApi.restLiked(memId);
             setLikedList(rsp.data);
@@ -124,7 +125,7 @@ const closeModal = () => {
       }, [likedList, restId]);
 
 
-    const addLike = async () => {
+    const addLike = async () => { 
         const rsp = await AxiosApi.addRestLike(restId, memId);
         if (rsp.data === true) {
             console.log("찜 등록 성공");
@@ -155,6 +156,22 @@ const closeModal = () => {
         }else
             deleteLike();
         }
+//예약하기 팝업
+    const [resModalOpen, setResModalOpen] = useState(false);    
+    const openResModal = () => {
+        console.log(isLogin,memId);
+        if (isLogin === "TRUE") {
+            setResModalOpen(true);
+        } else {
+            alert("로그인이 되어있지 않습니다.")
+            navigate("/login");
+        }
+    }
+
+    const closeResModal = () => {
+        setResModalOpen(false);
+    }
+    
 
     return(
             <FixContent>
@@ -168,7 +185,8 @@ const closeModal = () => {
                         <button className="inq" onClick={openModal}>문의 하기</button>
                         <InquiryModal open={modalOpen} close={closeModal}></InquiryModal>
                         <button className="like" onClick={onClickLiked} style={{backgroundColor : isLiked ? "salmon" : "white"}}>찜</button>
-                        <button className="res">예약 하기</button>
+                        <button className="res" onClick={openResModal}>예약 하기</button>
+                        <ResModal open={resModalOpen} close={closeResModal}></ResModal>
                     </div>
                 ))}
             </FixContent>

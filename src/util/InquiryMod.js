@@ -25,13 +25,6 @@ const ModalStyle = styled.div`
         /* 팝업이 열릴때 스르륵 열리는 효과 */
         animation: modal-bg-show 0.8s;
     }
-    /* button {
-        outline: none;
-        cursor: pointer;
-        margin-right: 10px;
-        border: 0;
-    } */
-
     section {
         width: 900px;
         height: 450px;
@@ -92,19 +85,21 @@ const ModalStyle = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
     }
     section > footer button {
-        position: absolute;
-        left:1200px;
+        position: relative;
         background-color: white;
         margin-top: 10px;
+        width: 100px;
+        height: 50px;
     }
     .add{
-        position: absolute;
-        left:550px;
+        right:200px;
     }
+    .clo{
+        left: 200px;
 
+    }
     @keyframes modal-show {
         from {
             opacity: 0;
@@ -173,7 +168,7 @@ const InquiryModal = (props) => {
                     </main>
                     <footer>
                         <button className="add" onClick={addInquiry&&close}>문의 등록</button>
-                        <button onClick={close}>취소</button>
+                        <button className="clo" onClick={close}>취소</button>
                     </footer>
                 </section>
             }

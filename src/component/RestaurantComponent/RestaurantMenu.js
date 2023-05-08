@@ -1,9 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../header/RTheader";
-import HomeFooter from "../footer/Foot";
-import RestaurantContainer from "./RestaurantContainer";
-import RestaurantNav from "./RestaurantNav";
 import AxiosApi from "../../api/Axios";
 import {useState,useEffect,useContext} from "react";
 import { RestIdContext } from "../../context/RestaurantId";
@@ -13,6 +9,8 @@ const MenuContanier = styled.section `
 		display: flex;
 		justify-content: center;
 		align-items: center;
+        margin-bottom: 30px;
+
     .cont{
         display: flex;
         justify-content: center;

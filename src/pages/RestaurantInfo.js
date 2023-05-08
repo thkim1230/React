@@ -12,16 +12,16 @@ import Review from "../component/restaurantComponent/RestaurantReview";
 
 const InfoContainer = styled.section`
 		width: 100%;
-		height: 900px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		margin-bottom: 30px;
+
 		.cont{
         position: relative;
 		bottom:5px;
 		padding: 30px;
 		background-color: white;
-		height: 750px;
 		width: 845px;
 		border: 1px solid;
 		p{
@@ -41,7 +41,9 @@ const Info = () => {
 	const {restId} = useContext(RestIdContext);
 	// 데이터 호출 
 	const [rtInfo, setRtInfo] = useState("");
+	
 	const[type,setType] = useState("default");
+
 	const handleType = (e) =>{
 		setType(e);
 

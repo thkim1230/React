@@ -99,7 +99,19 @@ const AxiosApi = {
   // 리뷰 공감 리스트 조회
   revLiked:async(memId)=>{
     return await axios.get(HD_DOMAIN+`/review/liked?memberId=${memId}`);
-  }
+  },
+  // 예약 추가 
+  addRes:async(restId,memId,resDate,resReq,resSeat,resPeo)=>{
+    const res = {
+      restId:restId,
+      memberId:memId,
+      resDate:resDate,
+      resReq:resReq,
+      resSeat:resSeat,
+      resPeo:resPeo
+    }
+    return await axios.post(HD_DOMAIN+"/restaurant/add/reservation",res);
+  },
 }
 
 export default AxiosApi;

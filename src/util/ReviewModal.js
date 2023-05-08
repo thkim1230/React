@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { useState,useContext } from "react";
 import AxiosApi from "../api/Axios";
-import { useNavigate } from "react-router-dom";
 import { RestIdContext } from "../context/RestaurantId";
 
 const ModalStyle = styled.div`
@@ -121,7 +120,6 @@ const ModalStyle = styled.div`
 `;
 
 const Modal = (props) => {
-    const navigate = useNavigate();
     const {restId} = useContext(RestIdContext); // context api로 매장 id 입력 받음
 
     // 팝업 열고 닫음
@@ -150,8 +148,6 @@ const Modal = (props) => {
 
         if(rsp.data === true) {
             alert("리뷰가 등록되었습니다.")
-
-            
         } else {
             console.log("전송 실패");
         }
@@ -173,7 +169,7 @@ const Modal = (props) => {
                         <input type="file" className="file"/>
                     </main>
                     <footer>
-                        <button onClick={addReview}>리뷰 등록</button>
+                        <button onClick={addReview&&close}>리뷰 등록</button>
                         <button onClick={close}>취소</button>
                     </footer>
                 </section>
