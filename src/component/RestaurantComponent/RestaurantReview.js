@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import AxiosApi from "../../api/Axios";
 import {useState,useEffect,useContext} from "react";
-import { RestIdContext } from "../../context/RestaurantId";
+import { RestIdContext,ReviewIdContext } from "../../context/RestaurantId";
 import Modal from "../../util/ReviewModal";
 import { useNavigate } from "react-router-dom";
 
@@ -159,6 +159,57 @@ const Review =() => {
         setModalOpen(false);
     }
 // 리뷰 공감 버튼
+    const [revLikeList,setRevLikeList] = useState([]); // 찜 리스트 배열
+    const [isRevLike, setIsRevLike] = useState(false); // 최종 찜 상태 
+    const {reviewId, setReviewId} = useContext(ReviewIdContext)
+    useEffect(()=>{ // 로그인한 회원id를 기준으로 공감 리뷰 리스트를 db에서 불러와 확인하고 배열에 삽입
+        const liked = async() => {
+            const rsp = await AxiosApi.revLiked(memId);
+            setRevLikeList(rsp.data);
+        }
+        liked();
+    },[memId]);
+
+    useEffect(() => {
+        if (revLikeList.some(item => item.reviewId === reviewId)) { // 배열을 확인하며 해당 매장사이트에서 찜이 등록되어 있으면 true 아니면 false
+        setIsRevLike(true);
+        } else {
+        setIsRevLike(false);
+        }
+      }, [revLikeList, reviewId]);
+
+    const addLike = async (revId) => { 
+        const rsp = await AxiosApi.addRevLike(revId, memId);
+        if (rsp.data === true) {
+            console.log("공감 등록 성공");
+            setRevLikeList([...revLikeList, {revId, memId}]); // 찜등록 성공시 배열에도 추가
+            setIsRevLike(true); // 최종 찜 상태를 true 로 전달
+            console.log(revLikeList);
+            } else {
+                console.log(" 등록 전송 실패");
+            }
+        };
+
+    const deleteLike = async (revId) => {
+        const rsp = await AxiosApi.delRevLike(revId, memId);
+        if (rsp.data === true) {
+            console.log("공감 삭제 성공");
+            setRevLikeList(revLikeList.filter(item => !(item.revId === revId && item.memId === memId))); // 찜 삭제 성공시 배열에도 삭제
+            setIsRevLike(false); // 최종 찜 상태를 false 로 전달
+            console.log(revLikeList);
+
+            } else {
+            console.log("삭제 전송 실패");
+            }
+        };
+
+    const onClickLiked = (revId) =>{
+        if (!isRevLike) {
+            addLike(revId);
+        }else{
+            deleteLike(revId);
+        }
+    }
 
     return (
         <ReviewContanier>
@@ -166,13 +217,13 @@ const Review =() => {
                 <button className="modalBtn" onClick={openModal}>리뷰 작성 하기</button>
                 <Modal open={modalOpen} close={closeModal}></Modal>
                 {visibleReviews&&visibleReviews.map(rest=>(
-                    <div onClick={navigate("/detail")} className="box" key={rest.reviewId}>
+                    <div className="box" key={rest.reviewId}>
                         <p className="nick">{rest.nickName}</p>
                         <p className="date">작성일 : {rest.reviewDate}</p>
                         <p className="title">{rest.reviewTitle}</p>
                         <p className="content">{rest.reviewContent}</p>
                         <p className="rating">평점 : {rest.reviewRating}</p>
-                        <button className="like" >공감</button>
+                        <button className="like" onClick={()=>onClickLiked(rest.reviewId)} style={{backgroundColor : isRevLike ? "salmon" : "white"}}>공감</button>
                         <div className="imgBox">
                             <img src="" alt="" />
                             <img src="" alt="" />
@@ -187,3 +238,4 @@ const Review =() => {
 }
 
 export default Review;
+

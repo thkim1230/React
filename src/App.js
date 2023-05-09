@@ -5,6 +5,8 @@ import Review from "./component/restaurantComponent/RestaurantReview";
 import List from "./pages/RestaurantList";
 import RestaurantProvider from "./context/RestaurantId";
 import Login from "./pages/Login";
+import ReviewDetail from "./pages/ReviewDetail";
+
 function App() {
 
   return (
@@ -16,6 +18,7 @@ function App() {
           <Route path="/menu" element={<Menu/>} />
           <Route path="/review" element={<Review/>} />
           <Route path="/list" element={<List/>}/>
+          <Route path="/detail" element={<ReviewDetail/>}/>
         </Routes>
       </Router>
     </RestaurantProvider>

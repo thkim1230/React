@@ -24,7 +24,6 @@ const ModalStyle = styled.div`
     }
     section > main {
 
-        height: 730px;
         padding: 16px;
         border-bottom: 1px solid #dee2e6;
     }
@@ -54,6 +53,7 @@ const ModalStyle = styled.div`
         width: 700px;
         height: 500px;
         padding:15px;
+        border: 1px solid;
     }
     section {
         width: 900px;

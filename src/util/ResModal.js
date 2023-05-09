@@ -10,7 +10,7 @@ const ModalStyle = styled.div`
     .date{
         margin: 10px;
         font-size: 15px;
-        width: 600px;
+        width: 700px;
         height: 300px;
         border: none;
         button{
@@ -131,8 +131,6 @@ const ResModal = (props) => {
     const [seat,setSeat]=useState(""); // 좌석 저장
     const [value, setValue] = useState(new Date());// 날짜 저장
     const [resReq,setresReq] = useState(""); 
-
-
 
     const peoples = Array(10)
     .fill()
