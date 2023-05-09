@@ -4,7 +4,7 @@ import 'react-calendar/dist/Calendar.css'; // css import
 import styled from 'styled-components';
 import { RestIdContext } from "../context/RestaurantId";
 import ResModal2 from './ResModal2';
-
+import moment from 'moment/moment';
 
 const ModalStyle = styled.div`
     .date{
@@ -135,13 +135,13 @@ const ResModal = (props) => {
     const peoples = Array(10)
     .fill()
     .map((_, index) => {
-      return 1 + index + "명";
+      return 1 + index ;
     }); 
 
     const seats = Array(10)
     .fill()
     .map((_, index) => {
-      return 1 + index + "번";
+      return 1 + index;
     });
 
     const onChangeResReq = (e) => {
@@ -154,7 +154,7 @@ const ResModal = (props) => {
     const handleSeatChange = (event) => {
         setSeat(event.target.value);
       };
-// 문의 작성 버튼 입력시 팝업 창
+// 다음 버튼 입력시 팝업 창
 
 const [modalOpen, setModalOpen] = useState(false);
 
@@ -165,11 +165,16 @@ const openModal = () => {
 const closeModal = () => {
     setModalOpen(false);
 }
-const change = () =>{
-    styled.background = "red";
-}
-const resData = [restId,memId,value,resReq,seat,peo];
-localStorage.setItem("resData", JSON.stringify(resData));
+
+const resData = {
+    restId: restId,
+    memId: memId,
+    resDate: moment(value).format("YYYY-MM-DD"),
+    resReq: resReq,
+    resSeat: seat,
+    resPeo: peo
+  };
+  localStorage.setItem("resData", JSON.stringify(resData));
 
   return (
     <ModalStyle>
@@ -182,7 +187,10 @@ localStorage.setItem("resData", JSON.stringify(resData));
                     </header>
                     <main>
                         <div>
-                            <Calendar className="date" onClickDay={change} value={value} onChange={setValue}/>              
+                            <Calendar 
+                            calendarType="US"
+                            className="date" value={value} onChange={setValue}/>   
+ 
                         </div>
                         <div className='select'>
                             <select value={peo} onChange={handlePeopleChange}>

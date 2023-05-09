@@ -6,6 +6,7 @@ import List from "./pages/RestaurantList";
 import RestaurantProvider from "./context/RestaurantId";
 import Login from "./pages/Login";
 import ReviewDetail from "./pages/ReviewDetail";
+import 'react-calendar/dist/Calendar.css';
 
 function App() {
 

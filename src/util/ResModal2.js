@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import AxiosApi from '../api/Axios';
+import { useNavigate } from 'react-router-dom';
 
 const ModalStyle = styled.div`
 
@@ -88,12 +89,22 @@ const ModalStyle = styled.div`
 
 const ResModal2 = (props) =>{
     const {open,close} = props;
-
+    const nav = useNavigate();
     const data = JSON.parse(localStorage.getItem("resData"));
+
     const addRes = async() =>{
-        const rsp = await AxiosApi.addRes(data);
+        const rsp = await AxiosApi.addRes(   
+            data.restId,
+            data.memId,
+            data.resDate,
+            data.resReq,
+            data.resSeat,
+            data.resPeo
+        );
         if(rsp.data === true) {
             alert("예약 신청이 완료되었습니다.")
+            
+            nav("/info")
     
         } else {
             console.log("등록 전송 실패");
@@ -112,19 +123,19 @@ const ResModal2 = (props) =>{
                         <div className='cont'>
                             <div className="box">
                                 <h2>예약 날짜</h2>
-                                <p>{data[2]}</p>
+                                <p>{data.resDate}</p>
                             </div>
                             <div className="box">
                                 <h2>인원 수</h2>
-                                <p>{data[5]}</p>
+                                <p>{data.resPeo}명</p>
                             </div>
                             <div className="box">
                                 <h2>좌석 번호</h2>
-                                <p>{data[4]}</p>
+                                <p>{data.resSeat}번</p>
                             </div>
                             <div className="box">
                                 <h2>요청 사항</h2>
-                                <p>{data[3]}</p>
+                                <p>{data.resReq}</p>
                             </div>
                         </div>
                     </main>
