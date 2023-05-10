@@ -29,7 +29,10 @@ const AxiosApi = {
     restaurantReview:async(restaurantId)=>{
       return await axios.get(HD_DOMAIN + `/restaurant/review?restaurantId=${restaurantId}`)
     },
-
+  // 리뷰 상세 정보 불러오기
+    reviewDetail:async(reviewId)=>{
+      return await axios.get(HD_DOMAIN + `/review/detail?reviewId=${reviewId}`)
+    },
   // 리뷰 추가 하기
     addReview:async(restId,memId,title,content,rating)=>{
       const review={
