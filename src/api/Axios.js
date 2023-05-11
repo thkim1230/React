@@ -115,6 +115,10 @@ const AxiosApi = {
     }
     return await axios.post(HD_DOMAIN+"/restaurant/add/reservation",res);
   },
+  // 좌석 조회
+  resSeat:async(date,restId,seatNum)=>{
+      return await axios.get(HD_DOMAIN+`/reservation/seat?date=${date}&restaurantId=${restId}&seat=${seatNum}`);
+    }
 }
 
 export default AxiosApi;
