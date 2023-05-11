@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import ReviewDetail from "./pages/ReviewDetail";
 import 'react-calendar/dist/Calendar.css';
 import Reservation from "./pages/Reservation";
-import FireBaseExample from "./연습";
+import Fire from "./pages/fire";
 
 function App() {
 
@@ -19,8 +19,7 @@ function App() {
           <Route path="/list" element={<List/>}/>
           <Route path="/detail" element={<ReviewDetail/>}/>
           <Route path="/reservation" element={<Reservation/>}/>
-          <Route path="/fire" element={<FireBaseExample/>}/>
-
+          <Route path="/fire" element={<Fire/>}/>
         </Routes>
       </Router>
     </RestaurantProvider>
