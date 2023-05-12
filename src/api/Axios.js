@@ -34,13 +34,14 @@ const AxiosApi = {
       return await axios.get(HD_DOMAIN + `/review/detail?reviewId=${reviewId}`)
     },
   // 리뷰 추가 하기
-    addReview:async(restId,memId,title,content,rating)=>{
+    addReview:async(restId,memId,title,content,rating,image)=>{
       const review={
         restId:restId,
         memberId:memId,
         title:title,
         content:content,
-        rating:rating
+        rating:rating,
+        image:image
       }
       return await axios.post(HD_DOMAIN + "/restaurant/add/review",review);
     },

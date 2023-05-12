@@ -66,11 +66,13 @@ const FixContent = styled.section`
 `;
 
 const RestaurantContainer =() =>{
-    //Context API로 매장 id 받아와서 해당 id 매장 정보 출력
+
+//Context API로 매장 id 받아오고 로컬 스토리지로 로그인상태 및 회원id 불러옴
     const {restId} = useContext(RestIdContext);
     const isLogin=localStorage.getItem("isLogin")
-    const memId = localStorage.getItem("memId");  // 로컬 스토리지로 로그인 시 회원 id 입력받고
-    // 매장 정보 호출
+    const memId = localStorage.getItem("memId"); 
+
+// 매장 정보 호출
     const [rtInfoFix, setRtInfoFix] = useState("");
  
     useEffect(() => {
@@ -81,29 +83,26 @@ const RestaurantContainer =() =>{
         rtInfoFix();
     },[]);
    
-
 // 문의 작성 버튼 입력시 팝업 창
-const navigate= useNavigate();
+    const navigate= useNavigate();
 
-const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
-const openModal = () => {
-
-    console.log(isLogin,memId);
-    if (isLogin === "TRUE") {
-        setModalOpen(true);
-    } else {
-        alert("로그인이 되어있지 않습니다.")
-        navigate("/login");
+    const openModal = () => {
+        console.log(isLogin,memId);
+        if (isLogin === "TRUE") {
+            setModalOpen(true);
+        } else {
+            alert("로그인이 되어있지 않습니다.")
+            navigate("/login");
+        }
     }
-}
 
-const closeModal = () => {
-    setModalOpen(false);
-}
+    const closeModal = () => {
+        setModalOpen(false);
+    }
 
 // 찜기능 
-
     const [isLiked, setIsLiked] = useState(false); // 최종 찜 상태 
     const [likedList,setLikedList] = useState([]); // 찜 리스트 배열
 
@@ -155,7 +154,6 @@ const closeModal = () => {
         }else
             deleteLike();
         }
-
 
     return(
             <FixContent>
